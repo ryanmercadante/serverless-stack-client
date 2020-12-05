@@ -1,4 +1,5 @@
 const config = {
+  MAX_ATTACHMENT_SIZE: 5_000_000,
   s3: {
     REGION: process.env.REACT_APP_REGION,
     BUCKET: process.env.REACT_APP_S3_BUCKET,
