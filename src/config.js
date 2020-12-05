@@ -1,4 +1,5 @@
 const config = {
+  STRIPE_KEY: process.env.REACT_APP_STRIPE_KEY,
   MAX_ATTACHMENT_SIZE: 5_000_000,
   s3: {
     REGION: process.env.REACT_APP_REGION,
