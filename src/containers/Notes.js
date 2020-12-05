@@ -5,6 +5,7 @@ import { Form } from 'react-bootstrap';
 import config from '../config';
 import { onError } from '../libs/errorLib';
 import LoaderButton from '../components/LoaderButton';
+import { s3Upload } from '../libs/awsLib';
 
 import './Notes.css';
 
@@ -30,6 +31,12 @@ export default function Notes() {
     file.current = event.target.files[0];
   }
 
+  function saveNote(note) {
+    return API.put('notes', `/notes/${id}`, {
+      body: note,
+    });
+  }
+
   async function handleSubmit(event) {
     let attachment;
 
@@ -38,13 +45,28 @@ export default function Notes() {
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
         `Please pick a file smaller than ${
-          config.MAX_ATTACHMENT_SIZE / 1000000
+          config.MAX_ATTACHMENT_SIZE / 1_000_000
         } MB.`,
       );
       return;
     }
 
     setIsLoading(true);
+
+    try {
+      if (file.current) {
+        attachment = await s3Upload(file.current);
+      }
+
+      await saveNote({
+        content,
+        attachment: attachment || note.attachment,
+      });
+      history.push('/');
+    } catch (err) {
+      onError(err);
+      setIsLoading(false);
+    }
   }
 
   async function handleDelete(event) {
