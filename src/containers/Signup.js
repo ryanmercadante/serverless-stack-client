@@ -5,9 +5,9 @@ import { Auth } from 'aws-amplify';
 import LoaderButton from '../components/LoaderButton';
 import { useAppContext } from '../libs/contextLib';
 import { useFormFields } from '../libs/hooksLib';
+import { onError } from '../libs/errorLib';
 
 import './Signup.css';
-import { onError } from '../libs/errorLib';
 
 export default function Signup() {
   const [newUser, setNewUser] = useState(null);
