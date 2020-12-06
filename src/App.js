@@ -28,8 +28,7 @@ function App() {
       await Auth.currentSession();
       setIsAuthenticated(true);
     } catch (err) {
-      console.log('errrrr', err);
-      if (err !== 'No current user') {
+      if (err && err !== 'No current user') {
         onError(err);
       }
     }
