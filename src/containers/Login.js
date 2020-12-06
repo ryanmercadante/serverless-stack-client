@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { Auth } from 'aws-amplify';
 import { useAppContext } from '../libs/contextLib';
@@ -17,7 +16,6 @@ export default function Login() {
     password: '',
   });
   const { setIsAuthenticated } = useAppContext();
-  const history = useHistory();
 
   function validateForm() {
     return fields.email.length > 0 && fields.password.length > 0;
@@ -31,7 +29,6 @@ export default function Login() {
     try {
       await Auth.signIn(fields.email, fields.password);
       setIsAuthenticated(true);
-      history.push('/');
     } catch (e) {
       onError(e);
       setIsLoading(false);
